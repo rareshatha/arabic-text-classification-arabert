@@ -2,11 +2,11 @@
 
 ## Overview
 
-This project explores the impact of fine-tuning **AraBERT v2** on Arabic sentiment classification.
+This project explores the impact of fine-tuning **AraBERT v2** on Arabic sentiment classification using the **AJGT (Arabic Jordanian General Tweets)** dataset.
 
-The main goal is to compare the performance of the pre-trained AraBERT model before and after task-specific fine-tuning using the **AJGT (Arabic Jordanian General Tweets)** dataset.
+The main goal is to compare the performance of the pre-trained AraBERT model before and after fine-tuning and evaluate how much task-specific training can improve Arabic text classification.
 
-The project covers the complete workflow, including dataset preparation, Arabic text tokenization, baseline evaluation, model fine-tuning, performance evaluation, visualization, and inference on custom Arabic texts.
+The project is implemented as a **Google Colab notebook** and covers the complete workflow, including dataset preparation, Arabic text tokenization, baseline evaluation, model fine-tuning, performance evaluation, visualization, and sentiment prediction on custom Arabic texts.
 
 ## Objective
 
@@ -21,36 +21,32 @@ The model is evaluated before and after fine-tuning using:
 
 ## Dataset
 
-The project uses the **AJGT (Arabic Jordanian General Tweets)** dataset.
-
-It is a binary sentiment classification dataset containing Arabic tweets labeled as:
+The project uses the **AJGT (Arabic Jordanian General Tweets)** dataset, a publicly available Arabic sentiment classification dataset containing tweets labeled as:
 
 * **Negative**
 * **Positive**
 
-The dataset is loaded using the Hugging Face Datasets library.
+The dataset is loaded directly using the Hugging Face Datasets library.
 
-The data is divided into training and testing sets using an 80/20 split.
+The dataset is split into training and testing sets using an 80/20 split.
 
 ## Model
 
-The project uses:
-
-**AraBERT v2**
+The project uses **AraBERT v2**:
 
 ```text
 aubmindlab/bert-base-arabertv02
 ```
 
-AraBERT is a BERT-based language model designed specifically for Arabic Natural Language Processing tasks.
+AraBERT is a BERT-based language model designed for Arabic Natural Language Processing tasks.
 
-For this project, the model is adapted for binary sentiment classification.
+In this project, the model is adapted for binary sentiment classification.
 
 ## Methodology
 
-The project follows these main steps:
+The notebook follows these main steps:
 
-1. Install and import the required libraries.
+1. Install the required libraries.
 2. Load and explore the AJGT dataset.
 3. Split the dataset into training and testing sets.
 4. Load the AraBERT tokenizer.
@@ -59,12 +55,12 @@ The project follows these main steps:
 7. Fine-tune AraBERT on the training dataset.
 8. Evaluate the fine-tuned model.
 9. Compare the baseline and fine-tuned results.
-10. Visualize the model performance.
+10. Generate performance visualizations.
 11. Test the fine-tuned model on custom Arabic texts.
 
 ## Text Preprocessing
 
-Arabic text is tokenized using the AraBERT tokenizer.
+Arabic text is processed using the AraBERT tokenizer.
 
 The maximum sequence length is set to **128 tokens**, with padding and truncation applied during tokenization.
 
@@ -74,9 +70,7 @@ MAX_LENGTH = 128
 
 ## Fine-Tuning Configuration
 
-The model was fine-tuned using the Hugging Face `Trainer` API.
-
-Main training settings:
+The model is fine-tuned using the Hugging Face `Trainer` API.
 
 | Parameter               |      Value |
 | ----------------------- | ---------: |
@@ -88,12 +82,12 @@ Main training settings:
 | Weight Decay            |       0.01 |
 | Maximum Sequence Length |        128 |
 | Warmup Ratio            |        0.1 |
-| Optimizer               |      AdamW |
 | Early Stopping Patience |          2 |
 
 ## Technologies Used
 
 * Python
+* Google Colab
 * PyTorch
 * Hugging Face Transformers
 * Hugging Face Datasets
@@ -120,49 +114,33 @@ The Accuracy increased from **53.12% to 92.47%**, while the Weighted F1-Score in
 
 ## Performance Visualization
 
-The project generates several visualizations to analyze model performance.
+The notebook generates several visualizations to analyze the model's performance.
+
+### Label Distribution
+
+The notebook visualizes the distribution of Positive and Negative samples in the training and testing sets.
 
 ### Confusion Matrix
 
 The confusion matrix shows the classification performance of the fine-tuned model across the Positive and Negative classes.
 
-```text
-confusion_matrix.png
-```
-
 ### Before vs After Fine-Tuning
 
-A comparison chart is generated to visualize the change in Accuracy and F1-Score before and after fine-tuning.
-
-```text
-comparison_chart.png
-```
+A comparison chart shows the difference in Accuracy and F1-Score before and after fine-tuning.
 
 ### Training Curves
 
-Training and evaluation curves are generated to monitor:
+Training curves are used to monitor:
 
 * Training Loss
 * Validation Accuracy
 * Validation F1-Score
 
-```text
-training_curves.png
-```
-
-### Dataset Distribution
-
-The project also visualizes the distribution of Positive and Negative labels in the training and testing sets.
-
-```text
-label_distribution.png
-```
-
 ## Custom Arabic Text Inference
 
-After fine-tuning, the model can be used to classify new Arabic texts as Positive or Negative.
+The fine-tuned model is also tested on custom Arabic sentences.
 
-The project includes examples of custom Arabic sentences and returns:
+For each input, the model provides:
 
 * Predicted sentiment
 * Prediction confidence
@@ -174,12 +152,37 @@ Text       : الخدمة كانت رائعة والموظفون محترمون 
 Prediction : Positive
 ```
 
+## How to Run
+
+The project is implemented as a **Google Colab notebook**.
+
+### Option 1: Google Colab
+
+Open the notebook in Google Colab and run the cells in order.
+
+The notebook automatically installs the required libraries and loads the dataset and pre-trained AraBERT model.
+
+### Option 2: Run Locally
+
+The notebook can also be downloaded as an `.ipynb` file and opened using:
+
+* Jupyter Notebook
+* JupyterLab
+* Google Colab
+* VS Code with Jupyter support
+
+Install the required libraries before running the notebook:
+
+```bash
+pip install transformers datasets torch scikit-learn matplotlib seaborn arabert
+```
+
 ## Project Structure
 
 ```text
 arabic-text-classification-arabert/
 │
-├── arabic_llm_finetuning.py
+├── Arabic_LLM_Finetuning.ipynb
 ├── README.md
 ├── label_distribution.png
 ├── confusion_matrix.png
@@ -187,51 +190,13 @@ arabic-text-classification-arabert/
 └── training_curves.png
 ```
 
-## Installation
-
-Clone the repository:
-
-```bash
-git clone https://github.com/YOUR-USERNAME/arabic-text-classification-arabert.git
-```
-
-Move to the project directory:
-
-```bash
-cd arabic-text-classification-arabert
-```
-
-Install the required libraries:
-
-```bash
-pip install transformers datasets torch scikit-learn matplotlib seaborn arabert
-```
-
-## Running the Project
-
-Run the Python script:
-
-```bash
-python arabic_llm_finetuning.py
-```
-
-The script will:
-
-* Load the AJGT dataset.
-* Prepare and tokenize the data.
-* Evaluate the baseline AraBERT model.
-* Fine-tune AraBERT.
-* Evaluate the fine-tuned model.
-* Generate performance metrics and visualizations.
-* Run sentiment predictions on custom Arabic texts.
-
 ## Key Findings
 
-* Fine-tuning significantly improves AraBERT's performance on the target classification task.
+* Fine-tuning significantly improves AraBERT's performance on the target Arabic sentiment classification task.
 * The fine-tuned model achieved over **92% Accuracy and Weighted F1-Score**.
-* A relatively small Arabic dataset can be effective when combined with a strong pre-trained language model.
-* Fine-tuning allows a general pre-trained Arabic model to adapt to a specific NLP task.
-* Performance visualization and detailed evaluation help provide a clearer understanding of model behavior.
+* A relatively small Arabic dataset can be effective when combined with a pre-trained language model.
+* Fine-tuning allows a pre-trained Arabic model to adapt to a specific NLP task.
+* Performance visualizations provide a clearer view of the model's behavior and training progress.
 
 ## Future Work
 
